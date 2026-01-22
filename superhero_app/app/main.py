@@ -45,7 +45,6 @@ async def read_hero(request: Request, hero_id: int, db: Session = Depends(get_db
 
 @app.post("/favorites/add", response_class=HTMLResponse)
 async def add_fav(request: Request, hero_id: int = Form(...), db: Session = Depends(get_db)):
-    # Assuming user_id 1 (admin) for simplicity as no auth is implemented
     user = crud.get_user_by_username(db, "admin")
     if user:
         crud.add_favorite(db, user.id, hero_id)
@@ -79,23 +78,18 @@ async def create_team_route(
     recommended_ids = []
     
     if strategy == "balanced":
-        # Strategy: Mix of Good (2), Bad (2), Neutral/Other (1)
+        # Mix of Good (2), Bad (2), and Neutral/Other (1)
         good = [h for h in heroes if h.biography.get('alignment') == 'good']
         bad = [h for h in heroes if h.biography.get('alignment') == 'bad']
         others = [h for h in heroes if h.biography.get('alignment') not in ['good', 'bad']]
         
         import random
         team_heroes = []
-        if len(good) >= 2: team_heroes.extend(random.sample(good, 2))
-        else: team_heroes.extend(good)
-        
-        if len(bad) >= 2: team_heroes.extend(random.sample(bad, 2))
-        else: team_heroes.extend(bad)
+        team_heroes.extend(random.sample(good, min(len(good), 2)))
+        team_heroes.extend(random.sample(bad, min(len(bad), 2)))
         
         remaining_needed = 5 - len(team_heroes)
-        pool = others + good + bad # Fallback to anyone
-        # Remove already selected
-        pool = [h for h in pool if h not in team_heroes]
+        pool = [h for h in (others + good + bad) if h not in team_heroes]
         
         if len(pool) >= remaining_needed:
             team_heroes.extend(random.sample(pool, remaining_needed))
@@ -103,24 +97,17 @@ async def create_team_route(
         recommended_ids = [h.id for h in team_heroes]
 
     elif strategy == "power":
-        # Strategy: Top 5 by total power stats
-        def get_total_power(hero):
-            stats = hero.powerstats
-            total = 0
-            for k, v in stats.items():
-                if v and str(v).isdigit():
-                    total += int(v)
-            return total
-
-        top_heroes = sorted(heroes, key=get_total_power, reverse=True)[:5]
+        # Top 5 by total power stats
+        top_heroes = sorted(
+            heroes, 
+            key=lambda h: sum(int(v) for v in h.powerstats.values() if str(v).isdigit()), 
+            reverse=True
+        )[:5]
         recommended_ids = [h.id for h in top_heroes]
 
-    else: # Random
+    else: 
         import random
-        if len(heroes) >= 5:
-            recommended_ids = [h.id for h in random.sample(heroes, 5)]
-        else:
-            recommended_ids = [h.id for h in heroes]
+        recommended_ids = [h.id for h in random.sample(heroes, min(len(heroes), 5))]
 
     team_data = schemas.TeamCreate(name=name, description=description, hero_ids=recommended_ids)
     crud.create_team(db, team_data, user.id)
@@ -147,9 +134,7 @@ async def update_hero(
     combat: int = Form(0),
     db: Session = Depends(get_db)
 ):
-    # Construct update data
-    # Note: Flattened forms need to be reconstructed into the nested JSON structure expected by the model
-    # Powerstats
+    # Prepare powerstats
     powerstats = {
         "intelligence": intelligence,
         "strength": strength,
@@ -159,8 +144,7 @@ async def update_hero(
         "combat": combat
     }
     
-    # Biography updates (partial)
-    # Fetch existing to preserve other fields if needed, or just update what we have
+    # Update biography
     current_hero = crud.get_superhero(db, hero_id)
     biography = current_hero.biography.copy() if current_hero.biography else {}
     biography.update({

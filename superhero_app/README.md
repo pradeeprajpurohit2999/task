@@ -7,11 +7,11 @@ A FastAPI-based web application to browse superheroes, view details, and create 
 - View detailed stats and biography.
 - Search for superheroes.
 - Add superheroes to favorites.
-- **Update Functionality**: Edit superhero details including name, alignment, and power stats.
+- **Update Superhero**: Edit details including name, alignment, and power stats.
 - **Team Recommendations**: Generate teams using different strategies:
-    - **Balanced**: Mixes Good and Bad alignment heroes.
+    - **Balanced**: Mix of Good and Bad alignment.
     - **Power Focused**: Selects strongest heroes.
-    - **Random**: Surprise team.
+    - **Random**: Randomly selects 5 heroes.
 
 ## Tech Stack
 - **Backend**: Python (FastAPI), SQLAlchemy (SQLite).

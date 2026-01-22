@@ -50,7 +50,6 @@ def get_favorites(db: Session, user_id: int):
     return db.query(models.Favorite).filter(models.Favorite.user_id == user_id).all()
 
 def create_team(db: Session, team: schemas.TeamCreate, user_id: int):
-    # hero_ids is a list of methods, but we store it as JSON in SQLite for simplicity in this model
     db_team = models.Team(
         name=team.name,
         description=team.description,
