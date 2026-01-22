@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="edit-container" style="max-width: 600px; margin: 0 auto;">
+    <h1>Edit {{ hero.name }}</h1>
+    <form action="/hero/{{ hero.id }}/edit" method="post">
+
+        <div class="form-group">
+            <label>Name:</label>
+            <input type="text" name="name" value="{{ hero.name }}" required class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label>Full Name:</label>
+            <input type="text" name="full_name" value="{{ hero.biography.get('full-name', '') }}" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label>Publisher:</label>
+            <input type="text" name="publisher" value="{{ hero.biography.get('publisher', '') }}" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label>Alignment:</label>
+            <select name="alignment" class="form-control">
+                <option value="good" {% if hero.biography.get('alignment')=='good' %}selected{% endif %}>Good</option>
+                <option value="bad" {% if hero.biography.get('alignment')=='bad' %}selected{% endif %}>Bad</option>
+                <option value="neutral" {% if hero.biography.get('alignment')=='neutral' %}selected{% endif %}>Neutral
+                </option>
+                <option value="-" {% if hero.biography.get('alignment')=='-' %}selected{% endif %}>Unknown</option>
+            </select>
+        </div>
+
+        <h3>Power Stats</h3>
+        <div class="stats-grid">
+            {% for stat, value in hero.powerstats.items() %}
+            <div class="form-group">
+                <label>{{ stat|upper }}:</label>
+                <input type="number" name="{{ stat }}" value="{{ value }}" class="form-control" min="0" max="100">
+            </div>
+            {% endfor %}
+        </div>
+
+        <div style="margin-top: 1rem;">
+            <button type="submit" class="btn">Save Changes</button>
+            <a href="/hero/{{ hero.id }}" class="btn" style="background-color: #666;">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

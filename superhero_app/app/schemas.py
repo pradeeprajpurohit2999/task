@@ -10,6 +10,9 @@ class SuperheroBase(BaseModel):
 class SuperheroCreate(SuperheroBase):
     pass
 
+class SuperheroUpdate(SuperheroBase):
+    pass
+
 class Superhero(SuperheroBase):
     id: int
 

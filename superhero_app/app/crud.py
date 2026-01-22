@@ -18,6 +18,16 @@ def create_superhero(db: Session, superhero: schemas.SuperheroCreate):
     db.refresh(db_superhero)
     return db_superhero
 
+def update_superhero(db: Session, superhero_id: int, superhero: schemas.SuperheroUpdate):
+    db_superhero = db.query(models.Superhero).filter(models.Superhero.id == superhero_id).first()
+    if db_superhero:
+        update_data = superhero.dict(exclude_unset=True)
+        for key, value in update_data.items():
+            setattr(db_superhero, key, value)
+        db.commit()
+        db.refresh(db_superhero)
+    return db_superhero
+
 def get_user_by_username(db: Session, username: str):
     return db.query(models.User).filter(models.User.username == username).first()
 
