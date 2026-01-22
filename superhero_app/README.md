@@ -7,7 +7,11 @@ A FastAPI-based web application to browse superheroes, view details, and create 
 - View detailed stats and biography.
 - Search for superheroes.
 - Add superheroes to favorites.
-- Generate balanced teams (simple logic implemented).
+- **Update Functionality**: Edit superhero details including name, alignment, and power stats.
+- **Team Recommendations**: Generate teams using different strategies:
+    - **Balanced**: Mixes Good and Bad alignment heroes.
+    - **Power Focused**: Selects strongest heroes.
+    - **Random**: Surprise team.
 
 ## Tech Stack
 - **Backend**: Python (FastAPI), SQLAlchemy (SQLite).
@@ -41,6 +45,8 @@ A FastAPI-based web application to browse superheroes, view details, and create 
    uvicorn app.main:app --reload
    ```
 3. Access at `http://localhost:8000`.
+
+**Note:** You can also simply run the included `run_app.bat` script on Windows to start the server.
 
 ## Notes
 - The database is a local SQLite file `superhero.db`.

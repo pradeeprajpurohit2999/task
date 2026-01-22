@@ -34,7 +34,11 @@ MOCK_HEROES = [
 def seed_db(db: Session, api_token: str = None):
     # Check if DB is already seeded
     if db.query(models.Superhero).first():
-        print("Database already seeded.")
+        print("Superheroes already seeded.")
+        # Ensure admin still exists just in case
+        if not crud.get_user_by_username(db, "admin"):
+             crud.create_user(db, schemas.UserCreate(username="admin"))
+             print("Created missing admin user.")
         return
 
     heroes_data = []

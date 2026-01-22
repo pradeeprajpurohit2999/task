@@ -72,6 +72,8 @@ async def create_team_route(
     db: Session = Depends(get_db)
 ):
     user = crud.get_user_by_username(db, "admin")
+    if not user:
+        user = crud.create_user(db, schemas.UserCreate(username="admin"))
     heroes = crud.get_superheroes(db, limit=200) # Fetch a larger pool
 
     recommended_ids = []

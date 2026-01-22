@@ -28,12 +28,21 @@
 
 <h1>My Teams</h1>
 <div class="teams-list">
+    {% if teams %}
     {% for team in teams %}
     <div class="team-card">
         <h3>{{ team.name }}</h3>
         <p>{{ team.description }}</p>
-        <p><strong>Members:</strong> {{ team.hero_ids|length }} Heroes</p>
+        <p><strong>Strategy:</strong> {{ team.hero_ids|length }} Heroes Selected</p>
+        <ul style="padding-left: 20px;">
+            {% for hero_id in team.hero_ids %}
+            <li>Hero ID: {{ hero_id }}</li>
+            {% endfor %}
+        </ul>
     </div>
     {% endfor %}
+    {% else %}
+    <p>No teams created yet.</p>
+    {% endif %}
 </div>
 {% endblock %}
