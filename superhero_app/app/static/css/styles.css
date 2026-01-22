@@ -1,0 +1,157 @@
+:root {
+    --primary-color: #e62429;
+    --secondary-color: #202020;
+    --text-color: #ffffff;
+    --card-bg: #151515;
+    --accent-color: #f78f3f;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+}
+
+nav {
+    background-color: #000;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+nav .brand {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.hero-card {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
+.hero-card:hover {
+    transform: translateY(-5px);
+}
+
+.hero-card img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
+.hero-card .info {
+    padding: 1rem;
+}
+
+.hero-card h3 {
+    margin: 0;
+    color: var(--text-color);
+}
+
+.btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn:hover {
+    background-color: #c11f24;
+}
+
+.search-bar {
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.search-bar input {
+    padding: 0.5rem;
+    flex-grow: 1;
+    border-radius: 4px;
+    border: 1px solid #444;
+    background: #333;
+    color: white;
+}
+
+/* Detail Page */
+.detail-container {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.detail-img {
+    flex: 1;
+    max-width: 400px;
+}
+
+.detail-img img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.detail-info {
+    flex: 2;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.stat-box {
+    background: #333;
+    padding: 1rem;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+.teams-list {
+    margin-top: 2rem;
+}
+
+.team-card {
+    background: #333;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Team Generator</h1>
+<div class="team-card">
+    <h2>Create a New Team</h2>
+    <form action="/team/create" method="post">
+        <div style="margin-bottom: 1rem;">
+            <label>Team Name:</label><br>
+            <input type="text" name="name" required style="padding: 0.5rem; width: 300px;">
+        </div>
+        <div style="margin-bottom: 1rem;">
+            <label>Description (Optional):</label><br>
+            <textarea name="description" style="padding: 0.5rem; width: 300px;"></textarea>
+        </div>
+        <button type="submit" class="btn">Generate Balanced Team</button>
+        <p><em>This will auto-select 5 heroes for you.</em></p>
+    </form>
+</div>
+
+<h1>My Teams</h1>
+<div class="teams-list">
+    {% for team in teams %}
+    <div class="team-card">
+        <h3>{{ team.name }}</h3>
+        <p>{{ team.description }}</p>
+        <p><strong>Members:</strong> {{ team.hero_ids|length }} Heroes</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

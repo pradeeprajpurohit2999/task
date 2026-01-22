@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form class="search-bar" action="/" method="get">
+    <input type="text" name="search" placeholder="Search superheroes..." value="{{ search if search else '' }}">
+    <button type="submit" class="btn">Search</button>
+</form>
+
+<div class="hero-grid">
+    {% for hero in heroes %}
+    <div class="hero-card" onclick="location.href='/hero/{{ hero.id }}'">
+        {% if hero.image_url %}
+        <img src="{{ hero.image_url }}" alt="{{ hero.name }}">
+        {% else %}
+        <img src="https://via.placeholder.com/300x300?text=No+Image" alt="No Image">
+        {% endif %}
+        <div class="info">
+            <h3>{{ hero.name }}</h3>
+            <p>Publisher: {{ hero.biography.publisher }}</p>
+            <p>Alignment: {{ hero.biography.alignment }}</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

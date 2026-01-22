@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="detail-container">
+    <div class="detail-img">
+        {% if hero.image_url %}
+        <img src="{{ hero.image_url }}" alt="{{ hero.name }}">
+        {% else %}
+        <img src="https://via.placeholder.com/400x600?text=No+Image" alt="No Image">
+        {% endif %}
+        <br><br>
+        <form action="/favorites/add" method="post">
+            <input type="hidden" name="hero_id" value="{{ hero.id }}">
+            <button type="submit" class="btn" style="width: 100%">Add to Favorites</button>
+        </form>
+    </div>
+    <div class="detail-info">
+        <h1>{{ hero.name }}</h1>
+        <h2>Biography</h2>
+        <p><strong>Full Name:</strong> {{ hero.biography['full-name'] }}</p>
+        <p><strong>Alter Egos:</strong> {{ hero.biography['alter-egos'] }}</p>
+        <p><strong>Place of Birth:</strong> {{ hero.biography['place-of-birth'] }}</p>
+        <p><strong>First Appearance:</strong> {{ hero.biography['first-appearance'] }}</p>
+        <p><strong>Publisher:</strong> {{ hero.biography.publisher }}</p>
+        <p><strong>Alignment:</strong> {{ hero.biography.alignment }}</p>
+
+        <h2>Power Stats</h2>
+        <div class="stats-grid">
+            {% for stat, value in hero.powerstats.items() %}
+            <div class="stat-box">
+                <div class="stat-value">{{ value }}</div>
+                <div>{{ stat|upper }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
